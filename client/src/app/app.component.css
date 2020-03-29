@@ -1,0 +1,41 @@
+.main-container {
+  height: 90%;
+  width: 100%;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  bottom: 0;
+  right: 0;
+  transition: 0.5s;
+}
+.content-container {
+  right: 0;
+  bottom: 0;
+}
+.toolbar-header {
+  height: 10%;
+}
+.side-container {
+  width: 250px;
+}
+.example-radio-group {
+  display: block;
+  border: 1px solid #555;
+  margin: 20px;
+  padding: 10px;
+}
+
+.icon-padding {
+  padding: 10px 10px 10px 10px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+.side-option{
+  float: center;
+  padding: 10px;
+}
+.side-close{
+  float:right
+}

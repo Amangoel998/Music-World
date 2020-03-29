@@ -1,0 +1,35 @@
+{
+  "name": "music-world",
+  "version": "1.0.0",
+  "description": "This is website for CRUD of songs and artists",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amangoel998/Music-Website.git"
+  },
+  "keywords": [
+    "Spotify",
+    "Songs",
+    "Artists"
+  ],
+  "author": "Aman Goel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Amangoel998/Music-Website/issues"
+  },
+  "homepage": "https://github.com/Amangoel998/Music-Website#readme",
+  "dependencies": {
+    "@angular/cli": "^9.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "formidable": "^1.2.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.6"
+  }
+}
