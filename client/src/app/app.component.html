@@ -1,20 +1,26 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="toolbar-header">
   <mat-toolbar-row>
-    <span>Music World</span>
+    <a style="text-decoration: none;color: inherit;" href="/"><span><mat-icon  class="icon-padding" >music_note</mat-icon>Music World</span></a>
+
     <span class="toolbar-spacer"></span>
-    <mat-icon
-      class="icon-padding"
-      aria-hidden="false"
-      aria-label="Example heart icon"
-      >favorite</mat-icon
-    >
-    <mat-icon
-      class="icon-padding"
-      aria-hidden="false"
-      aria-label="Example delete icon"
-      >power_settings_new</mat-icon
-    >
+
+    <button mat-icon-button class="side-option">
+      <mat-icon
+        class="icon-padding"
+        aria-hidden="false"
+        aria-label="Example heart icon"
+        >favorite</mat-icon
+      >
+    </button>
+    <button mat-icon-button class="side-option">
+      <mat-icon
+        class="icon-padding"
+        aria-hidden="false"
+        aria-label="Example delete icon"
+        >power_settings_new</mat-icon
+      >
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -22,19 +28,24 @@
 <mat-sidenav-container class="main-container">
   <mat-sidenav #sidenav mode="push" class="side-container">
     <div>
-      <button mat-button (click)="sidenav.toggle()" class="side-close">
+      <button
+        color="warn"
+        mat-button
+        (click)="sidenav.toggle()"
+        class="side-close"
+      >
         <mat-icon class="icon-padding">reply</mat-icon>Close
       </button>
     </div>
-    <mat-divider></mat-divider>
+    <div><mat-divider></mat-divider></div>
     <div class="side-option">
-      <button mat-button (click)="addSongDialog()">
+      <button color="primary" mat-raised-button (click)="addSongDialog()">
         Add Song
         <mat-icon class="icon-padding">send</mat-icon>
       </button>
     </div>
     <div class="side-option">
-      <button mat-button (click)="addArtistDialog()">
+      <button color="primary" mat-raised-button (click)="addArtistDialog()">
         Add Artist
         <mat-icon class="icon-padding">send</mat-icon>
       </button>
@@ -44,16 +55,24 @@
 
   <!-- Main content -->
   <mat-sidenav-content class="content-container">
-    <div class="side-option">
-      <button mat-button (click)="sidenav.toggle()">
-        <mat-icon class="icon-padding">menu</mat-icon>Menu
-      </button>
+    <div>
+      <ul>
+        <li>
+          <button class="side-close" mat-button (click)="sidenav.toggle()">
+            <mat-icon class="icon-padding">queue_music</mat-icon>Menu
+          </button>
+        </li>
+        <li style="float:right; margin-right:10px"><search-songs></search-songs></li>
+      </ul>
     </div>
     <div>
       <mat-tab-group>
-      <mat-tab label="Top 10 Songs"><app-topsongs></app-topsongs> </mat-tab>
-      <mat-tab label="Top 10 Artists"> <app-topartists></app-topartists> </mat-tab>
-    </mat-tab-group></div>
+        <mat-tab label="Top 10 Songs"><app-topsongs></app-topsongs> </mat-tab>
+        <mat-tab label="Top 10 Artists">
+          <app-topartists></app-topartists>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

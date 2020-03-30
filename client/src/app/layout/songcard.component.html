@@ -5,6 +5,7 @@
   </mat-card-header>
   <img
     mat-card-image
+    class="card-image"
     src="https://material.angular.io/assets/img/examples/shiba2.jpg"
     alt="Photo of a Shiba Inu"
   />
@@ -12,12 +13,11 @@
     <p>Album</p>
   </mat-card-content>
   <mat-card-actions>
-    <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1"><mat-icon>star_border</mat-icon></mat-radio-button>
-        <mat-radio-button value="2"><mat-icon>star_border</mat-icon></mat-radio-button>
-        <mat-radio-button value="3"><mat-icon>star_half</mat-icon></mat-radio-button>
-        <mat-radio-button value="4"><mat-icon>star_half</mat-icon></mat-radio-button>
-        <mat-radio-button value="5"><mat-icon>star</mat-icon></mat-radio-button>
-      </mat-radio-group>
+    <mat-star-rating
+      [rating]="rating"
+      [starCount]="starCount"
+      [color]="starColor"
+      (ratingUpdated)="onRatingChanged($event)"
+    ></mat-star-rating>
   </mat-card-actions>
 </mat-card>

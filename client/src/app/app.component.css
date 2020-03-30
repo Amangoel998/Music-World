@@ -13,29 +13,35 @@
   bottom: 0;
 }
 .toolbar-header {
+  float:top;
+  position:fixed;
   height: 10%;
 }
 .side-container {
   width: 250px;
 }
-.example-radio-group {
-  display: block;
-  border: 1px solid #555;
-  margin: 20px;
-  padding: 10px;
-}
-
-.icon-padding {
+ul {
+  list-style-type: none;
+  margin: 0;
+  width: 95%;
   padding: 10px 10px 10px 10px;
+  overflow: hidden;
+}
+li {
+  float: left;
+}
+.icon-padding {
+  padding: 5px 10px 5px 10px;
 }
 
 .toolbar-spacer {
   flex: 1 1 auto;
 }
 .side-option{
-  float: center;
-  padding: 10px;
+  padding: 5px 5px 5px 10px;
+  margin: 5px 5px 5px 40px;
 }
 .side-close{
-  float:right
+  padding: 5px 10px 5px 5px;
+  margin: 5px 5px 5px 10px;
 }
