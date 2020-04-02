@@ -1,17 +1,17 @@
 const express = require("express");
 const { check, validationResult } = require("express-validator");
-const { createSong, getAllArtists, getAllSongs } = require("../config/db");
+const { createSong, getAllSongs, getAllArtists } = require("../config/db");
 const auth = require("../middleware/auth");
 const router = express.Router();
 const filevalidator = require("../middleware/filevalidator");
 
 router.get("/", async (req, res) => {
-  //res.status(200).json(await getAllSongs());
-  res.render('song');
+  res.status(200).json(await getAllSongs());
 });
 
 router.post(
   "/",
+  auth,
   filevalidator,
   [
     check("name", "Name is required")
@@ -39,6 +39,11 @@ router.post(
         });
       }
       const artists = req.body.artists.split(/[\s,]+/);
+      const allartists = (await getAllArtists()).map(el=> el.id);
+      if(artists.every(el=>allartists.contains(el))){
+        res.json({error:"Given Artists not avaiable"})
+        return;
+      }
       const cover_image = {
         data: req.files.cover_image.data,
         contentType: req.files.cover_image.mimetype
