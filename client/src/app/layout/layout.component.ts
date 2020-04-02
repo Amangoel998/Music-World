@@ -26,6 +26,7 @@ export class LayoutComponent implements OnInit {
   styleUrls: ['./layout.component.css']
 })
 export class CardLayoutComponent implements OnInit {
+  @Input() rowIndex:Number;
   rating:number = 3;
   starCount:number = 5;
   starColor:StarRatingColor = StarRatingColor.accent;

@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
     user_dob: {
         type: Date,
         default: Date.now
-    }
+    },
+    versionKey: false
+},
+{
+  collection: 'users'
 });
 module.exports = User = mongoose.model('user', UserSchema);

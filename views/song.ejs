@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <body>
+    <form action="/api/songs" enctype="multipart/form-data" method="post">
+      <input type="text" name="name" placeholder="Name" />
+      <input type="date" name="releasedate" placeholder="Date" />
+      <input type="text" name="album" placeholder="Album" />
+      <input type="text" name="artists" placeholder="Artists" />
+      <input type="number" name="user_rating" placeholder="User Rating" />
+      <input
+        type="file"
+        name="cover_image"
+        multiple
+        value="Upload Cover"
+      />>
+
+      <input type="submit" />
+    </form>
+    <script src="" async defer></script>
+  </body>
+</html>

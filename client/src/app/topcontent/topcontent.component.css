@@ -1,0 +1,8 @@
+.song-cards-list {
+  list-style-type: none;
+  margin: 10px 10px 10px 10px;
+}
+.song-card-item {
+  float: left;
+  padding: 10px 10px 10px 10px;
+}

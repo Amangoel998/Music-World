@@ -9,11 +9,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddSongDialog, AddArtistDialog } from './dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { LayoutComponent, CardLayoutComponent, StarRatingComponent } from './layout/layout.component';
-import { TopArtistsComponent, TopSongsComponent } from './topcontent/topcontent.component';
+import { TopArtistsComponent, TopSongsComponent, TopContentComponent } from './topcontent/topcontent.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { ChipsComponent } from './chips/chips.component';
 import {SearchSongsComponent} from './chips/songs.chips.component';
-import {SearchArtistsComponent} from './chips/artists.chips.component'
+import {SearchArtistsComponent} from './chips/artists.chips.component';
+import { HomeComponent } from './home/home.component'
 
 @NgModule({
   declarations: [
@@ -24,11 +25,13 @@ import {SearchArtistsComponent} from './chips/artists.chips.component'
     LayoutComponent,
     TopArtistsComponent,
     TopSongsComponent,
+    TopContentComponent,
     CardLayoutComponent,
     SearchbarComponent,
     ChipsComponent,
     SearchSongsComponent,
-    SearchArtistsComponent
+    SearchArtistsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

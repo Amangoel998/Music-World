@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
 const config = require("config");
 const dbURI = config.get("mongoURI");
-const Shorturl = require("../models/Shorturl");
-
+const Artist = require("../models/Artist");
+const Song = require("../models/Song");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-// mongoose.connect(db);
 
-//New Standard, Looks Synchronous
 const connectDB = async () => {
   try {
     await mongoose.connect(dbURI, {
@@ -22,102 +20,210 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-// Function to get new shortened URL
-async function createUser(newuser) {
-  try {
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ errors: [{ msg: "User Already Exists" }] });
+
+const createUser = async newuser => {
+  let msg = "";
+  let user = await User.findOne(
+    { user_email: newuser.user_email },
+    (err, user) => {
+      if (err) msg = err.message;
+      if (user) msg = "User Already Exists";
     }
-
-    user = new User(newuser);
-    const salt = await bcrypt.genSalt();
-    user.password = await bcrypt.hash(password, salt);
-    await user.save();
-
+  );
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
+  }
+  user = new User(newuser);
+  const salt = await bcrypt.genSalt();
+  user.user_password = await bcrypt.hash(newuser.user_password, salt);
+  await user.save((err, res) => {
+    if (err) msg = err.message;
+  });
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
+  } else {
     const payload = {
       user: {
         id: user.id
       }
     };
-    jwt.sign(
-      payload,
-      config.get("jwtKey"),
-      { expiresIn: 36000 },
-      (err, token) => {
-        if (err) throw err;
-        return res.json({ token });
-      }
-    );
-  } catch (e) {
-    throw new Error("URL is unavailable");
+    return payload;
   }
-}
+};
 
-// Function to find Full URL from short URL
-async function loginUser(candidate) {
-  try {
-    let user = await User.findOne({ email: candidate.email });
-    if (!user) {
-      return res
-        .status(400)
-        .json({ errors: [{ msg: "Invalid Creadentials" }] });
+const loginUser = async candidate => {
+  let msg = "";
+  const user = await User.findOne(
+    { user_email: candidate.user_email },
+    (err, user) => {
+      if (err) msg = err.message;
+      if (!user) msg = "Invalid Credentials";
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res
-        .status(400)
-        .json({ errors: [{ msg: "Invalid Creadentials" }] });
-    }
-
+  );
+  if (msg) {
     const payload = {
-      user: {
-        id: user.id
-      }
+      error: msg
     };
-    jwt.sign(
-      payload,
-      config.get("jwtKey"),
-      { expiresIn: 360000 },
-      (err, token) => {
-        if (err) throw err;
-        return res.json({ token });
-      }
-    );
-  } catch (err) {
-    throw new Error("URL is unavaiable");
+    return payload;
   }
-}
+  const isMatch = await bcrypt.compare(
+    candidate.user_password,
+    user.user_password
+  );
+  if (!isMatch) {
+    const payload = {
+      error: "Invalid Credentials"
+    };
+    return payload;
+  }
+  const payload = {
+    user: {
+      id: user.id
+    }
+  };
+  return payload;
+};
 
-//Function to get No. of clicks using the short Url
-async function getClicksCount(surl) {
-  try {
-    const foundobj = await Shorturl.findOne({
-      shorturl: surl
-    });
-    if (foundobj == null) return 0;
-    return foundobj.clicks;
-  } catch (e) {
-    throw new Error("URL is Unavailable");
+const createArtist = async newartist => {
+  let msg = null;
+  let artist = await Artist.findOne(
+    {
+      artist_name: newartist.artist_name,
+      artist_dob: newartist.artist_dob
+    },
+    (err, res) => {
+      if (err) msg = err.message;
+      if (res) msg = "Artist Already Exists";
+    }
+  );
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
   }
-}
-async function createCustomURL(lurl, surl) {
-  try {
-    const newobj = await Shorturl.create({
-      fullurl: lurl,
-      shorturl: surl
-    });
-    return newobj.shorturl;
-  } catch (e) {
-    throw new Error("URL is unavaiable");
+  artist = new Artist(newartist);
+  await artist.save((err, res) => {
+    if (err) msg = err.message;
+  });
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
+  } else {
+    const payload = {
+      message: "Artist Added Successfully"
+    };
+    return payload;
   }
-}
+};
+
+const createSong = async newsong => {
+  let msg = "";
+  let song = await Song.findOne(
+    {
+      song_name: newsong.song_name,
+      song_releasedate: newsong.song_releasedate
+    },
+    (err, res) => {
+      if (err) msg = err.message;
+      if (res) msg = "Song Already Exists";
+    }
+  );
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
+  }
+  song = new Song(newsong);
+  await song.validate().catch(err => {
+    console.log(err.message);
+    const payload = {
+      error: "Artist Objects are invalid"
+    };
+    return payload;
+  });
+  await song.save((err, res) => {
+    if (err) msg = err.message;
+  });
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
+  } else {
+    const payload = {
+      message: "Song Added Successfully"
+    };
+    return payload;
+  }
+};
+
+const getAllArtists = async () => {
+  return await Artist.find({}, { __v: 0 });
+};
+const getAllSongs = async () => {
+  return await Song.find(
+    {},
+    {
+      _id: 0,
+      song_name: 1,
+      song_artists: 1,
+      avg_rating: 1,
+      song_album: 1,
+      song_releasedate: 1,
+      song_cover: 1
+    }
+  );
+};
+
+const getTopArtists = async () => {
+  const topsongs = await getAllSongs();
+  let topartists = [];
+  let count = 10;
+  topsongs.forEach(el => {
+    el.song_artists.forEach(async el => {
+      const artist = await Artist.findById(el);
+      topartists.push(artist.artist_name);
+      count++;
+    });
+    if (count > 10) return topartists;
+  });
+  return topartists;
+};
+const getTopSongs = async () => {
+  return await Song.find(
+    {},
+    {
+      _id: 0,
+      song_name: 1,
+      song_artists: 1,
+      avg_rating: 1,
+      song_album: 1,
+      song_releasedate: 1,
+      song_cover: 1
+    }
+  )
+    .sort("avg_rating")
+    .limit(10);
+};
 
 module.exports = {
   connectDB,
   createUser,
   loginUser,
-  getClicksCount,
-  createCustomURL
+  createArtist,
+  createSong,
+  getAllArtists,
+  getAllSongs,
+  getTopArtists,
+  getTopSongs
 };

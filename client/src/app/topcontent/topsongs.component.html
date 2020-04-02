@@ -1,16 +1,5 @@
-<table>
-    <tr>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-    </tr>
-    <tr>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-        <td><app-cardlayout></app-cardlayout></td>
-    </tr>
-</table>
+<ul class="song-cards-list">
+    <li class="song-card-item" *ngFor="let el of songs; index as i">
+        <app-cardlayout [rowIndex]="i">{{el}}</app-cardlayout>
+    </li>
+</ul>
