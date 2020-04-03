@@ -6,12 +6,12 @@ const router = express.Router();
 const filevalidator = require("../middleware/filevalidator");
 
 router.get("/", async (req, res) => {
-  res.status(200).json(await getAllSongs());
+  //res.status(200).json(await getAllSongs());
+  res.render('song');
 });
 
 router.post(
   "/",
-  auth,
   filevalidator,
   [
     check("name", "Name is required")
