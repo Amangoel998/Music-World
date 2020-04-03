@@ -22,6 +22,7 @@ app.get("/", (req, res) => res.status(200));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/songs", require("./routes/songs"));
+app.use("/api/images", require("./routes/images"));
 app.use("/api/artists", require("./routes/artists"));
 app.use("/api/topsongs", require("./routes/topsongs"));
 app.use("/api/topartists", require("./routes/topartists"));

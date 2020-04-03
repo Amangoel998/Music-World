@@ -2,11 +2,11 @@ const express = require("express");
 const { getTopSongs } = require("../config/db");
 
 const router = express.Router();
-const auth = require("../middleware/auth");
+const auth = require("../middleware/auths");
 
 router.get("/", auth, async (req, res) => {
   try {
-    res.status(200).json(await getTopSongs());
+    await res.status(200).json(await getTopSongs());
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server Error" });

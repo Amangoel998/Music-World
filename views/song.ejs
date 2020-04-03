@@ -9,19 +9,23 @@
     <link rel="stylesheet" href="" />
   </head>
   <body>
-    <form action="/api/songs" enctype="multipart/form-data" method="post">
+    <div>
+      <% for(var i=0; i<artists.length;i++){ %> 
+        <div>Artist <%= i+1 %> : <%= artists[i].artist_name %>: <%= artists[i]._id %></div>
+  <% } %>
+    </div>
+    <form name="form-1" action="/api/songs" enctype="multipart/form-data" method="post">
       <input type="text" name="name" placeholder="Name" />
       <input type="date" name="releasedate" placeholder="Date" />
       <input type="text" name="album" placeholder="Album" />
       <input type="text" name="artists" placeholder="Artists" />
-      <input type="number" name="user_rating" placeholder="User Rating" />
+      <input type="decimal" name="user_rating" placeholder="User Rating" />
       <input
         type="file"
         name="cover_image"
         multiple
         value="Upload Cover"
-      />>
-
+      />
       <input type="submit" />
     </form>
     <script src="" async defer></script>

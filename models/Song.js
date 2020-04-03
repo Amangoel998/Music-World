@@ -6,7 +6,13 @@ const SongSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       maxlength: 30,
-      required: true
+      required: true,
+      get: name => {
+        return name
+          .split(" ")
+          .map(el => el[0].toUpperCase() + el.slice(1))
+          .join(" ");
+      }
     },
     song_artists: [
       {
@@ -14,33 +20,14 @@ const SongSchema = new mongoose.Schema(
         ref: "artist"
       }
     ],
-    avg_rating: {
-      type: Number,
-      default: 0,
-      get: () => {
-        const count = this.ratings.length;
-        if (count === 0) return 0;
-        const sum = 0;
-        this.ratings.forEach(element => {
-          sum += element.stars;
-        });
-        this.avg_rating = (sum / count).toFixed(2);
-        return this.avg_rating;
-      },
-      set: num => {
-        if(!this.ratings)return 0;
-        const diff = (num - this.avg_rating) / this.ratings.length;
-        return this.avg_rating + diff;
-      }
-    },
     user_ratings: [
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "user",
-          unique: true
+          sparse: true
         },
-        stars: {
+        rating: {
           type: Number,
           enum: [1, 2, 3, 4, 5],
           default: 1
@@ -48,6 +35,38 @@ const SongSchema = new mongoose.Schema(
         _id: false
       }
     ],
+    avg_rating: {
+      type: mongoose.Decimal128,
+      get: function() {
+        if (this.user_ratings) {
+          const count = this.user_ratings.length;
+          if (count === 0) return 0;
+          let sum = 0;
+          this.user_ratings.forEach(element => {
+            sum += element.rating;
+          });
+          const result = (sum / count).toFixed(2);
+          return Number(result);
+        }
+        return 0;
+      },
+      set: function(num){
+        if (this.user_ratings) {
+          const count = this.user_ratings.length;
+          if (count === 0) return 0;
+          let sum = 0;
+          this.user_ratings.forEach(element => {
+            sum += element.rating;
+          });
+          const result = (sum / count).toFixed(2);
+          return Number(result);
+        }
+        return 0;
+      },
+      default: 5,
+      max: 5,
+      min: 1
+    },
     song_album: {
       type: String,
       default: () => this.song_name
@@ -57,10 +76,9 @@ const SongSchema = new mongoose.Schema(
       default: Date.now
     },
     song_cover: {
-      data: Buffer,
-      contentType: String
-    },
-    versionKey: false
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "image"
+    }
   },
   {
     collection: "songs"

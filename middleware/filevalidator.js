@@ -1,6 +1,6 @@
 // const FileType = require("file-type");
 module.exports = filevalidator = async (req, res, next) => {
-  if (!req.files.cover_image || Object.keys(req.files).length === 0) {
+  if (!req.file||!req.files.cover_image || Object.keys(req.files).length === 0) {
     console.log("File Not Uploaded");
     return res.status(401).json({ msg: "File is required" });
   }

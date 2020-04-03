@@ -6,7 +6,10 @@ const ArtistSchema = new mongoose.Schema(
       type: String,
       required: true,
       lowercase: true,
-      maxlength: 25
+      maxlength: 25,
+      get: name => {
+        return name.split(" ").map(el => el[0].toUpperCase()+el.slice(1)).join(" ");
+      }
     },
     artist_dob: {
       type: Date,

@@ -4,6 +4,7 @@ const dbURI = config.get("mongoURI");
 const Artist = require("../models/Artist");
 const Song = require("../models/Song");
 const User = require("../models/User");
+const Image = require("../models/Image");
 const bcrypt = require("bcryptjs");
 
 const connectDB = async () => {
@@ -66,7 +67,7 @@ const loginUser = async candidate => {
       if (!user) msg = "Invalid Credentials";
     }
   );
-  if (msg) {
+  if (msg || !user) {
     const payload = {
       error: msg
     };
@@ -137,29 +138,31 @@ const createSong = async newsong => {
       if (res) msg = "Song Already Exists";
     }
   );
-  if (msg) {
-    const payload = {
-      error: msg
-    };
-    return payload;
-  }
-  song = new Song(newsong);
-  await song.validate().catch(err => {
-    console.log(err.message);
-    const payload = {
-      error: "Artist Objects are invalid"
-    };
-    return payload;
-  });
-  await song.save((err, res) => {
-    if (err) msg = err.message;
-  });
-  if (msg) {
+  if (msg || song) {
     const payload = {
       error: msg
     };
     return payload;
   } else {
+    const image = new Image({ image: newsong.song_cover });
+    image.save();
+    newsong.song_cover = image.id;
+    newsong.user_rating;
+    song = new Song(newsong, { autoIndex: false });
+    await song.validate().catch(err => {
+      console.log(err.message);
+      const payload = {
+        error: "Artist Objects are invalid"
+      };
+      return payload;
+    });
+    if (msg) {
+      const payload = {
+        error: msg
+      };
+      return payload;
+    }
+    await song.save();
     const payload = {
       message: "Song Added Successfully"
     };
@@ -174,8 +177,10 @@ const getAllSongs = async () => {
   return await Song.find(
     {},
     {
-      _id: 0,
+      _id: 1,
       song_name: 1,
+      user_ratings: 1,
+      avg_rating: 1,
       song_artists: 1,
       avg_rating: 1,
       song_album: 1,
@@ -186,36 +191,83 @@ const getAllSongs = async () => {
 };
 
 const getTopArtists = async () => {
-  const topsongs = await getAllSongs();
-  let topartists = [];
-  let count = 10;
-  topsongs.forEach(el => {
-    el.song_artists.forEach(async el => {
-      const artist = await Artist.findById(el);
-      topartists.push(artist.artist_name);
-      count++;
-    });
-    if (count > 10) return topartists;
-  });
-  return topartists;
+  const artists = new Set(
+    (await getAllSongs()).map(asyncel => {
+      el.song_artists;
+    })
+  );
+  console.log(artists);
+  return artists;
 };
+
 const getTopSongs = async () => {
   return await Song.find(
     {},
     {
       _id: 0,
       song_name: 1,
-      song_artists: 1,
-      avg_rating: 1,
+      song_cover: 1,
       song_album: 1,
+      song_artists: 1,
       song_releasedate: 1,
-      song_cover: 1
+      user_ratings: 1,
+      avg_rating: 1
     }
   )
-    .sort("avg_rating")
+    .sort("-avg_rating")
     .limit(10);
 };
+const getImage = async id => {
+  return await Image.findById(id);
+};
+const updateArtist = async (id, updateartist) => {
+  let msg = null;
+  const artist = await Artist.findOneAndUpdate(
+    { _id: id },
+    updateartist,
+    { new: true },
+    (err, res) => {
+      if (err) msg = err.message;
+      if (!res) msg = "Artist Doesn't Exists";
+    }
+  );
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
+  }
+  artist.save();
+  const payload = {
+    message: "Artist Updated Successfully"
+  };
+  return payload;
+};
 
+const updateSong = async (id, updatesong) => {
+  let msg = null;
+  const song = await Song.findOneAndUpdate(
+    { _id: id },
+    updatesong,
+    { new: true },
+    (err, res) => {
+      if (err) msg = err.message;
+      if (!res) msg = "Song Doesn't Exists";
+    }
+  );
+  if (msg) {
+    const payload = {
+      error: msg
+    };
+    return payload;
+  }
+  console.log(song);
+  song.save();
+  const payload = {
+    message: "Song Updated Successfully"
+  };
+  return payload;
+};
 module.exports = {
   connectDB,
   createUser,
@@ -225,5 +277,8 @@ module.exports = {
   getAllArtists,
   getAllSongs,
   getTopArtists,
-  getTopSongs
+  getTopSongs,
+  getImage,
+  updateArtist,
+  updateSong
 };

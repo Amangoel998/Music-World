@@ -6,6 +6,10 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const { loginUser } = require("../config/db");
 
+router.get('/', async(req,res)=>{
+  res.render('auth')
+})
+
 router.post(
   "/",
   [
@@ -22,8 +26,8 @@ router.post(
         });
       }
       const user = {
-        user_email: req.body.email,
-        user_password: req.body.password
+        user_email: req.body.email.trim(),
+        user_password: req.body.password.trim()
       };
       const payload = await loginUser(user);
       if (payload.error) {
