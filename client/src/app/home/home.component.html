@@ -1,1 +1,79 @@
-<p>home works!</p>
+<!-- Toolbar -->
+<mat-toolbar color="primary" class="toolbar-header">
+    <mat-toolbar-row>
+        <a style="text-decoration: none; color: inherit;" href="/"><span
+        ><mat-icon class="icon-padding">music_note</mat-icon>Music World</span
+      ></a
+    >
+
+    <span class="toolbar-spacer"></span>
+
+    <button color="primary" mat-flat-button class="side-button">
+      Contact
+    </button>
+    <button color="primary" mat-flat-button class="side-button">
+      About
+    </button>
+    <button
+      color="primary"
+      mat-flat-button
+      class="side-button"
+      (click)="logOut()"
+    >
+      Logout
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<!-- Side Navigaton Bar-->
+<mat-sidenav-container class="main-container">
+  <mat-sidenav #sidenav mode="push" class="side-container">
+    <div>
+      <button
+        color="warn"
+        mat-button
+        (click)="sidenav.toggle()"
+        class="side-close"
+      >
+        <mat-icon class="icon-padding">reply</mat-icon>Close
+      </button>
+    </div>
+    <div><mat-divider></mat-divider></div>
+    <div class="side-option">
+      <button color="primary" mat-raised-button (click)="addSongDialog()">
+        Add Song
+        <mat-icon class="icon-padding">send</mat-icon>
+      </button>
+    </div>
+    <div class="side-option">
+      <button color="primary" mat-raised-button (click)="addArtistDialog()">
+        Add Artist
+        <mat-icon class="icon-padding">send</mat-icon>
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+  </mat-sidenav>
+
+  <!-- Main content -->
+  <mat-sidenav-content class="content-container">
+    <div>
+      <ul>
+        <li>
+          <button class="side-close" mat-button (click)="sidenav.toggle()">
+            <mat-icon class="icon-padding">queue_music</mat-icon>Menu
+          </button>
+        </li>
+        <li style="float: right; margin-right: 10px;">
+          <mat-form-field>
+            <mat-label>Search Songs</mat-label>
+            <input matInput type="text" />
+          </mat-form-field>
+        </li>
+      </ul>
+    </div>
+    <div style="height:100%">
+      <app-topcontent></app-topcontent>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

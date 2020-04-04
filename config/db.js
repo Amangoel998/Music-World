@@ -13,7 +13,7 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-      useFindAndModify: false
+      useFindAndModify: false,
     });
     console.log("MongoDB Connected....");
   } catch (err) {
@@ -22,7 +22,7 @@ const connectDB = async () => {
   }
 };
 
-const createUser = async newuser => {
+const createUser = async (newuser) => {
   let msg = "";
   let user = await User.findOne(
     { user_email: newuser.user_email },
@@ -33,7 +33,7 @@ const createUser = async newuser => {
   );
   if (msg) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   }
@@ -45,20 +45,20 @@ const createUser = async newuser => {
   });
   if (msg) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   } else {
     const payload = {
       user: {
-        id: user.id
-      }
+        id: user.id,
+      },
     };
     return payload;
   }
 };
 
-const loginUser = async candidate => {
+const loginUser = async (candidate) => {
   let msg = "";
   const user = await User.findOne(
     { user_email: candidate.user_email },
@@ -69,7 +69,7 @@ const loginUser = async candidate => {
   );
   if (msg || !user) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   }
@@ -79,24 +79,24 @@ const loginUser = async candidate => {
   );
   if (!isMatch) {
     const payload = {
-      error: "Invalid Credentials"
+      error: "Invalid Credentials",
     };
     return payload;
   }
   const payload = {
     user: {
-      id: user.id
-    }
+      id: user.id,
+    },
   };
   return payload;
 };
 
-const createArtist = async newartist => {
+const createArtist = async (newartist) => {
   let msg = null;
   let artist = await Artist.findOne(
     {
       artist_name: newartist.artist_name,
-      artist_dob: newartist.artist_dob
+      artist_dob: newartist.artist_dob,
     },
     (err, res) => {
       if (err) msg = err.message;
@@ -105,7 +105,7 @@ const createArtist = async newartist => {
   );
   if (msg) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   }
@@ -115,23 +115,23 @@ const createArtist = async newartist => {
   });
   if (msg) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   } else {
     const payload = {
-      message: "Artist Added Successfully"
+      message: "Artist Added Successfully",
     };
     return payload;
   }
 };
 
-const createSong = async newsong => {
+const createSong = async (newsong) => {
   let msg = "";
   let song = await Song.findOne(
     {
       song_name: newsong.song_name,
-      song_releasedate: newsong.song_releasedate
+      song_releasedate: newsong.song_releasedate,
     },
     (err, res) => {
       if (err) msg = err.message;
@@ -140,7 +140,7 @@ const createSong = async newsong => {
   );
   if (msg || song) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   } else {
@@ -149,22 +149,22 @@ const createSong = async newsong => {
     newsong.song_cover = image.id;
     newsong.user_rating;
     song = new Song(newsong, { autoIndex: false });
-    await song.validate().catch(err => {
+    await song.validate().catch((err) => {
       console.log(err.message);
       const payload = {
-        error: "Artist Objects are invalid"
+        error: "Artist Objects are invalid",
       };
       return payload;
     });
     if (msg) {
       const payload = {
-        error: msg
+        error: msg,
       };
       return payload;
     }
     await song.save();
     const payload = {
-      message: "Song Added Successfully"
+      message: "Song Added Successfully",
     };
     return payload;
   }
@@ -185,39 +185,39 @@ const getAllSongs = async () => {
       avg_rating: 1,
       song_album: 1,
       song_releasedate: 1,
-      song_cover: 1
+      song_cover: 1,
     }
-  );
+  ).sort("-avg_rating").populate('song_artists');
 };
 
 const getTopArtists = async () => {
-  const artists = new Set(
-    (await getAllSongs()).map(asyncel => {
-      el.song_artists;
-    })
-  );
-  console.log(artists);
+  const artists = new Set();
+  const song_artists = await (await getAllSongs()).map((el) => el.song_artists);
+  song_artists.every(async (e) => {
+    if (artists.size < 10) artists.add(e.pop());
+  });
   return artists;
 };
 
 const getTopSongs = async () => {
-  return await Song.find(
+  let topsongs = await Song.find(
     {},
     {
-      _id: 0,
       song_name: 1,
       song_cover: 1,
       song_album: 1,
       song_artists: 1,
       song_releasedate: 1,
       user_ratings: 1,
-      avg_rating: 1
+      avg_rating: 1,
     }
   )
     .sort("-avg_rating")
-    .limit(10);
+    .limit(10).populate('song_artists')
+  // console.log(topsongs)
+  return topsongs;
 };
-const getImage = async id => {
+const getImage = async (id) => {
   return await Image.findById(id);
 };
 const updateArtist = async (id, updateartist) => {
@@ -233,13 +233,13 @@ const updateArtist = async (id, updateartist) => {
   );
   if (msg) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   }
   artist.save();
   const payload = {
-    message: "Artist Updated Successfully"
+    message: "Artist Updated Successfully",
   };
   return payload;
 };
@@ -257,16 +257,20 @@ const updateSong = async (id, updatesong) => {
   );
   if (msg) {
     const payload = {
-      error: msg
+      error: msg,
     };
     return payload;
   }
   console.log(song);
   song.save();
   const payload = {
-    message: "Song Updated Successfully"
+    message: "Song Updated Successfully",
   };
   return payload;
+};
+const getArtistName = async (id) => {
+  const artist = await Artist.findById(id);
+  return artist.artist_name;
 };
 module.exports = {
   connectDB,
@@ -280,5 +284,6 @@ module.exports = {
   getTopSongs,
   getImage,
   updateArtist,
-  updateSong
+  updateSong,
+  getArtistName,
 };

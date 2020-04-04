@@ -17,9 +17,9 @@ export class SearchbarComponent implements OnInit {
   ngOnInit(): void {
   }
   getSongs(){
-    this.dataService.getPosts().subscribe(post => {
+    this.dataService.getAllSongs().subscribe(post => {
       this.songs = post
-      this.dataService.songs = post
+      this.dataService.allSongs = post
     });
   }
 }

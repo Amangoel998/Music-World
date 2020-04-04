@@ -1,23 +1,14 @@
 <mat-card class="card-container">
-  <mat-card-header>
-    <mat-card-title>Song Name</mat-card-title>
-    <mat-card-subtitle>Artist</mat-card-subtitle>
-  </mat-card-header>
-  <img
-    mat-card-image
-    class="card-image"
-    src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-    alt="Photo of a Shiba Inu"
-  />
-  <mat-card-content>
-    <p>Album</p>
-  </mat-card-content>
-  <mat-card-actions>
-    <mat-star-rating
-      [rating]="rating"
-      [starCount]="starCount"
-      [color]="starColor"
-      (ratingUpdated)="onRatingChanged($event)"
-    ></mat-star-rating>
-  </mat-card-actions>
+    <mat-card-header>
+        <mat-card-title>{{(1+rowIndex)+'. '+song_name}}</mat-card-title>
+        <mat-card-subtitle>{{song_artists_name}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        
+    <img mat-card-image class="card-image" [src]="img_src" alt="Song Cover" />
+        <h2>{{song_album}}</h2>
+    </mat-card-content>
+    <mat-card-actions>
+        <mat-star-rating [rating]="rating" [starCount]="starCount" (ratingUpdated)="onRatingChanged($event)"></mat-star-rating>
+    </mat-card-actions>
 </mat-card>

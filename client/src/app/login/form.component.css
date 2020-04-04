@@ -1,0 +1,50 @@
+mat-card {
+    max-width: fit-content;
+    max-height: fit-content;
+    border-radius: 10px;
+    margin-top: 20vh;
+    margin-left: 37.5vw;
+}
+
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+}
+
+mat-card-title {
+    margin-bottom: 20px;
+}
+
+.mat-form-field {
+    padding: 5px 20px 5px 20px;
+    min-width: 300px;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.error {
+    padding: 16px;
+    width: 300px;
+    color: white;
+    background-color: red;
+}
+
+.button-submit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+a:link {
+    color: green;
+}
+
+a:hover {
+    color: red;
+}
+
+a:active {
+    color: white;
+}

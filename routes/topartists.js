@@ -4,13 +4,14 @@ const { getTopArtists } = require("../config/db");
 const router = express.Router();
 const auth = require("../middleware/auths");
 
-router.get("/", auth, async (req, res) => {
-  try {
-    res.status(200).json(await getTopArtists());
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server Error" });
-  }
+router.get("/", async(req, res) => {
+    try {
+        const topartists = await getTopArtists();
+        res.status(200).json(Array.from(topartists));
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server Error" });
+    }
 });
 
 module.exports = router;

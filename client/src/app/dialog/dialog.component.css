@@ -1,0 +1,18 @@
+:host {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    width: max-content;
+    height: max-content;
+    max-width: 600px;
+    max-height: 600px;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.bio-content {
+    height: inherit;
+    width: inherit;
+}

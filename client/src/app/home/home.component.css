@@ -1,0 +1,63 @@
+.main-container {
+    margin-top: 80px;
+    width: inherit;
+    position: relative;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transition: 0.5s;
+}
+
+.content-container {
+    right: 0;
+    bottom: 0;
+}
+
+.toolbar-header {
+    float: top;
+    position: fixed;
+    top: 0;
+    height: 80px;
+}
+
+.side-container {
+    width: 250px;
+    height: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    width: 95%;
+    padding: 10px 10px 10px 10px;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+.icon-padding {
+    padding: 5px 5px 5px 5px;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.side-button {
+    padding: 5px;
+    font-size: large;
+    margin-top: 2vh;
+}
+
+.side-option {
+    padding: 5px 5px 5px 10px;
+    margin: 5px 5px 5px 40px;
+}
+
+.side-close {
+    padding: 5px 10px 5px 5px;
+    margin: 5px 5px 5px 10px;
+}

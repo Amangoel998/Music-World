@@ -9,25 +9,10 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  opened = true;
   title='Music World';
   
-  mode: FormControl = new FormControl('over');
-
   ngOnInit() {
   }
-  constructor(public dialog: MatDialog) {}
+  constructor() {}
 
-  addSongDialog(): void {
-    const dialogRef = this.dialog.open(AddSongDialog, {
-      width: '600px',
-      height: '400px'
-    });
-  }
-  addArtistDialog(): void {
-    const dialogRef = this.dialog.open(AddArtistDialog, {
-      width: '600px',
-      height: '400px'
-    });
-  }
 }

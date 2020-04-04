@@ -1,17 +1,22 @@
 export interface Song{
-    name: String;
-    artists: [String];
-    album: String;
-    average_ratings: Number;
+    song_name: String;
+    song_artists: [Artist];
+    song_album: String;
+    avg_rating: Number;
+    id:String;
+    song_cover:any;
 }
 export interface Artist{
-    name: String;
-    songs: String;
-    dob: String;
+    artist_name: String;
+    artist_dob: string;
+    artist_bio: String;
 }
 export interface User{
     name: String;
     email: String;
     password: String;
-    dob: Date;
+}
+export interface Image{
+    data: BinaryType,
+    contentType: String
 }

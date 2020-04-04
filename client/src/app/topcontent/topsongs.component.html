@@ -1,5 +1,5 @@
 <ul class="song-cards-list">
-    <li class="song-card-item" *ngFor="let el of songs; index as i">
-        <app-cardlayout [rowIndex]="i">{{el}}</app-cardlayout>
+    <li class="song-card-item" *ngFor="let song of songs; index as i">
+        <app-cardlayout [rowIndex]="i" [song]="song"></app-cardlayout>
     </li>
 </ul>

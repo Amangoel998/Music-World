@@ -1,4 +1,4 @@
-<table style="width:90%;margin: 10px 20px 10px 5%" mat-table [dataSource]="artists_list" class="mat-elevation-z8">
+<table style="margin: 18px" mat-table [dataSource]="artists_list" class="mat-elevation-z8">
 
     <ng-container matColumnDef="index">
       <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -6,15 +6,15 @@
     </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.artist_name}} </td>
     </ng-container>
-    <ng-container matColumnDef="songs">
-      <th mat-header-cell *matHeaderCellDef> Songs </th>
-      <td mat-cell *matCellDef="let element"> {{element.songs}} </td>
+    <ng-container matColumnDef="dob" style="width: max-content;">
+      <th mat-header-cell *matHeaderCellDef> Date of Brith </th>
+      <td mat-cell *matCellDef="let element"> {{element.artist_dob}} </td>
     </ng-container>
-    <ng-container matColumnDef="dob">
-      <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
-      <td mat-cell *matCellDef="let element"> {{element.dob}} </td>
+    <ng-container matColumnDef="bio">
+      <th mat-header-cell *matHeaderCellDef> Bio</th>
+      <td mat-cell *matCellDef="let element"> {{element.artist_bio}} </td>
     </ng-container>  
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -1,17 +1,30 @@
 <div mat-dialog-content>
-    <p>What's your favorite animal?</p>
-    <mat-form-field>
-      <mat-label>Favorite Animal</mat-label>
-      <input matInput type="text">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button mat-dialog-close="true" cdkFocusInitial>Ok</button>
-  </div>
+    <p>Add a New Artist</p>
+    <form>
+        <div>
+            <mat-form-field>
+                <mat-label>Artist Name</mat-label>
+                <input matInput type="text" required>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Artist Date of Birth</mat-label>
+                <input matInput [matDatepicker]="picker" required/>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="bio-content">
+                <mat-label>Artist Bio</mat-label>
+                <textarea matInput placeholder="Ex. What was first release..." required></textarea>
+            </mat-form-field>
+        </div>
+        <div mat-dialog-actions style="padding: 0; justify-content: end; margin-bottom: 0;">
+            <span class="toolbar-spacer"></span>
+            <button color="warn" mat-button [mat-dialog-close]="true">Cancel</button>
+            <button color="primary" mat-button (click)="onNoClick()">Done</button>
+        </div>
+    </form>
+</div>

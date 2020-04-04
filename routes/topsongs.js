@@ -4,7 +4,7 @@ const { getTopSongs } = require("../config/db");
 const router = express.Router();
 const auth = require("../middleware/auths");
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     await res.status(200).json(await getTopSongs());
   } catch (err) {
