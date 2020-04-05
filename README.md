@@ -9,7 +9,7 @@ _*This project is Full Stack Project including backend in Node.js which uses Exp
 ```
 {
   "mongoURI": "{Your Mongo Connection Name}",
-  "jwtKey: "{Your Jwt Secret Key"
+  "jwtKey: "{Your Jwt Secret Key}"
 }
 ```
 
