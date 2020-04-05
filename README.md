@@ -16,6 +16,7 @@ _*This project is Full Stack Project including backend in Node.js which uses Exp
 ## To Run this Project Run the Following commands in the shell
 ```
 npm install
+cd client && npm install
 npm start
 ng serve
 ```
