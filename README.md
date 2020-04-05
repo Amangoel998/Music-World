@@ -6,12 +6,12 @@ _*This project is Full Stack Project including backend in Node.js which uses Exp
 
 - [x] To Run the backend Properly this is step is a must
       You need to create a File - default.json inside /config/ folder with following syntax
-      ```
-      {
-        "mongoURI": "{Your Mongo Connection Name}"
-        "jwtKey: "{Your Jwt Secret Key"
-      }
-      ```
+```
+{
+  "mongoURI": "{Your Mongo Connection Name}",
+  "jwtKey: "{Your Jwt Secret Key"
+}
+```
 
 ## To Run this Project Run the Following commands in the shell
 ```
