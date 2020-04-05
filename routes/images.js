@@ -5,7 +5,7 @@ const { getImage } = require("../config/db");
 const router = express.Router();
 const auth = require("../middleware/auths");
 
-router.get("/:id", async(req, res) => {
+router.get("/:id",auth, async(req, res) => {
     try {
         const image = (await getImage(req.params.id)).image;
         console.log(image)

@@ -4,7 +4,7 @@ const { getTopArtists } = require("../config/db");
 const router = express.Router();
 const auth = require("../middleware/auths");
 
-router.get("/", async(req, res) => {
+router.get("/",auth, async(req, res) => {
     try {
         const topartists = await getTopArtists();
         res.status(200).json(Array.from(topartists));
