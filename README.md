@@ -29,4 +29,4 @@ _You can see following homepage after logging or registering_
 
 ## Adding Songs and Artists
 _You can add new songs and corresponding artists_
-![Action](/images/Add Artist.png)
+![Action]('/images/Add Artist.png')
