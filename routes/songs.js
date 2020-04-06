@@ -48,7 +48,7 @@ router.post(
         song_name: req.body.name.trim(),
         song_artists: artists,
         song_album: req.body.album.trim(),
-        user_ratings: [{ user: req.user, rating: req.body.user_rating }],
+        user_ratings: [{ user: req.user.id, rating: req.body.user_rating }],
         song_releasedate: req.body.releasedate,
         song_cover: cover_image,
         avg_rating: req.body.user_rating,
