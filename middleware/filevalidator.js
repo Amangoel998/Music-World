@@ -1,11 +1,11 @@
 // const FileType = require("file-type");
 module.exports = filevalidator = async (req, res, next) => {
-  if (!req.file||!req.files.cover_image || Object.keys(req.files).length === 0) {
+  if (req.body.cover_image) {
+    const type = req.body.cover_image.contentType;
+    if (type === "image/jpeg" || type === "image/png") next();
+    else return res.status(400).json({ error: "File Type Not acceptable" });
+  } else {
     console.log("File Not Uploaded");
-    return res.status(401).json({ msg: "File is required" });
+    res.status(400).json({ error: "File is required" });
   }
-  const type = req.files.cover_image.mimetype;
-  // const type = await FileType.fromBuffer(req.files.cover_image.data)
-  if (type === "image/jpeg" || type === "image/png") next();
-  else res.status(401).json({ msg: "File Type Not acceptable" });
 };

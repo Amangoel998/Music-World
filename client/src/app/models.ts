@@ -3,6 +3,7 @@ export interface Song{
     song_artists: [Artist];
     song_album: String;
     avg_rating: Number;
+    song_releasedate: string,
     id:String;
     song_cover:any;
 }

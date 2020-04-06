@@ -128,45 +128,51 @@ const createArtist = async (newartist) => {
 
 const createSong = async (newsong) => {
   let msg = "";
-  let song = await Song.findOne(
-    {
-      song_name: newsong.song_name,
-      song_releasedate: newsong.song_releasedate,
-    },
-    (err, res) => {
-      if (err) msg = err.message;
-      if (res) msg = "Song Already Exists";
-    }
-  );
-  if (msg || song) {
-    const payload = {
-      error: msg,
-    };
-    return payload;
-  } else {
-    const image = new Image({ image: newsong.song_cover });
-    image.save();
-    newsong.song_cover = image.id;
-    newsong.user_rating;
-    song = new Song(newsong, { autoIndex: false });
-    await song.validate().catch((err) => {
-      console.log(err.message);
-      const payload = {
-        error: "Artist Objects are invalid",
-      };
-      return payload;
-    });
+  try {
+    let song = await Song.findOne(
+      {
+        song_name: newsong.song_name,
+        song_releasedate: newsong.song_releasedate,
+      },
+      (err, res) => {
+        if (err) msg = err.message;
+        if (res) msg = "Song Already Exists";
+      }
+    );
     if (msg) {
       const payload = {
         error: msg,
       };
       return payload;
+    } else {
+      const image = new Image({ image: newsong.song_cover });
+      image.save();
+      newsong.song_cover = image.id;
+      newsong.user_rating;
+      song = new Song(newsong, { autoIndex: false });
+      await song.validate().catch((err) => {
+        const payload = {
+          error: "Artist Objects are invalid",
+        };
+        return payload;
+      });
+      await song.save((err)=>{
+        console.log(err)
+        msg = err.message
+      });
+      if (msg) {
+        const payload = {
+          error: msg,
+        };
+        return payload;
+      }
+      const payload = {
+        message: "Song Added Successfully",
+      };
+      return payload;
     }
-    await song.save();
-    const payload = {
-      message: "Song Added Successfully",
-    };
-    return payload;
+  } catch (err) {
+    console.log("Some Error");
   }
 };
 
@@ -187,7 +193,9 @@ const getAllSongs = async () => {
       song_releasedate: 1,
       song_cover: 1,
     }
-  ).sort("-avg_rating").populate('song_artists');
+  )
+    .sort("-avg_rating")
+    .populate("song_artists");
 };
 
 const getTopArtists = async () => {
@@ -213,8 +221,8 @@ const getTopSongs = async () => {
     }
   )
     .sort("-avg_rating")
-    .limit(10).populate('song_artists')
-  // console.log(topsongs)
+    .limit(10)
+    .populate("song_artists");
   return topsongs;
 };
 const getImage = async (id) => {
@@ -261,7 +269,6 @@ const updateSong = async (id, updatesong) => {
     };
     return payload;
   }
-  console.log(song);
   song.save();
   const payload = {
     message: "Song Updated Successfully",

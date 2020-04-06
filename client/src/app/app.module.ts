@@ -10,7 +10,7 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddSongDialog, AddArtistDialog } from './dialog/dialog.component';
+import { AddSongDialog, AddArtistDialog, UserRatingComponent } from './dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -25,9 +25,6 @@ import {
 } from './topcontent/topcontent.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent, RegisterComponent } from './login/login.component';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { AuthService } from './auth.service';
 import { ServerService } from './server.service';
 import { SongdataService } from './songdata.service';
 import { ArtistsdataService } from './artistsdata.service';
@@ -45,11 +42,9 @@ import { ArtistsdataService } from './artistsdata.service';
     CardLayoutComponent,
     SearchbarComponent,
     HomeComponent,
-    LoginComponent,
-    RegisterComponent,
-    NotfoundComponent,
     LoginFormComponent,
     RegisterFormComponent,
+    UserRatingComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +56,6 @@ import { ArtistsdataService } from './artistsdata.service';
     HttpClientModule,
   ],
   providers: [
-    AuthService,
     ServerService,
     SongdataService,
     ArtistsdataService,

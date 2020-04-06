@@ -2,6 +2,7 @@ const express = require("express");
 const { connectDB } = require("./config/db");
 const app = express();
 const fileUpload = require("express-fileupload");
+const bodyParser = require('body-parser')
 
 //Connect Database
 connectDB();
@@ -13,16 +14,8 @@ app.use(
     limits: { fileSize: 5 * 1024 * 1024 },
   })
 );
-app.use(express.json({ extended: false }));
-app.use(express.urlencoded({ extended: false }));
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+app.use(bodyParser.urlencoded({limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb'}));
 app.get("/", (req, res) => res.status(200));
 
 // Define Routes

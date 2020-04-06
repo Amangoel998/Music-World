@@ -1,35 +1,71 @@
-<mat-card>
+<mat-toolbar color="primary" class="toolbar-header">
+  <mat-toolbar-row>
+    <a style="text-decoration: none; color: inherit;" href="/"
+      ><span
+        ><mat-icon class="icon-padding">music_note</mat-icon>Music World</span
+      ></a
+    >
+
+    <span class="toolbar-spacer"></span>
+
+    <button color="primary" mat-flat-button class="side-button">
+      Contact
+    </button>
+    <button color="primary" mat-flat-button class="side-button">
+      About
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container class="main-container">
+  <mat-card>
     <mat-card-title>Register</mat-card-title>
     <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="submit()">
-            <p>
-                <mat-form-field>
-                    <input type="text" matInput placeholder="Your Name" formControlName="name">
-                </mat-form-field>
-            </p>
-            <p>
-                <mat-form-field>
-                    <input type="text" matInput placeholder="Email Address" formControlName="email">
-                </mat-form-field>
-            </p>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <p>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              placeholder="Your Full Name"
+              formControlName="name"
+            />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              placeholder="Email Address"
+              formControlName="email"
+            />
+          </mat-form-field>
+        </p>
 
-            <p>
-                <mat-form-field>
-                    <input type="password" matInput placeholder="Password" formControlName="password">
-                </mat-form-field>
-            </p>
+        <p>
+          <mat-form-field>
+            <input
+              type="password"
+              matInput
+              placeholder="Password"
+              formControlName="password"
+            />
+          </mat-form-field>
+        </p>
 
-            <p *ngIf="err" class="error">
-                {{ err }}
-            </p>
+        <p *ngIf="err" class="error">
+          {{ err }}
+        </p>
 
-            <div>
-                <button color="primary" mat-button (click)="gotoLogin()">Login instead</button>
-
-                <button type="submit" color="primary" mat-button>Register</button>
-
-            </div>
-
-        </form>
+        <div>
+          <button color="primary" mat-button (click)="gotoLogin()">
+            Login instead
+          </button>
+          <span style="margin-left: 135px;">
+            <button type="submit" color="primary" mat-button>Register</button>
+          </span>
+        </div>
+      </form>
     </mat-card-content>
-</mat-card>
+  </mat-card>
+</mat-sidenav-container>

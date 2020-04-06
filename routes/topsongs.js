@@ -2,7 +2,6 @@ const express = require("express");
 const { getTopSongs } = require("../config/db");
 
 const router = express.Router();
-const auth = require("../middleware/auths");
 
 router.get("/", async (req, res) => {
   try {

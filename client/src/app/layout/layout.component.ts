@@ -55,11 +55,13 @@ export class CardLayoutComponent implements OnInit {
   }
 
   convertToImage(songData) {
-    this.songservice.getImage(songData).subscribe((el) => {
+    let image;
+    this.songservice.getImage(songData).subscribe((el:any) => {
       let base64Flag = 'data:image/jpeg;base64,';
       let imageStr = this.arrayBufferToBase64(el.data.data);
       this.img_src = base64Flag + imageStr;
     });
+    
   }
   onRatingChanged(rating) {
     this.rating = rating;

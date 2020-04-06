@@ -1,58 +1,81 @@
 <div mat-dialog-content>
-    <p>Add a New Song</p>
-    <form>
-        <table>
-            <tr>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Song Name</mat-label>
-                        <input matInput type="text" required />
-                    </mat-form-field>
-                </td>
-                <td rowspan="4" style="align-items: flex-end;">
-                    <input #file type="file" accept="image/*" (change)="preview(file.files)" />
-                    <img [src]="imgURL" height="200" *ngIf="imgURL" />
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Album Name</mat-label>
-                        <input matInput type="text" required />
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Release Date</mat-label>
-                        <input matInput [matDatepicker]="picker" required />
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Artists *</mat-label>
-                        <mat-select [formControl]="artists_select" multiple>
-                            <mat-option *ngFor="let artist of artists" [value]="artist">{{ artist.artist_name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-            </tr>
-        </table>
-        <div mat-dialog-actions style="padding: 0; justify-content: end; margin-bottom: 0;">
-            <button color="accent" mat-raised-button (click)="addArtistDialog()">
+  <p>Add a New Song</p>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <table>
+      <tr>
+        <td>
+          <mat-form-field>
+            <mat-label>Song Name</mat-label>
+            <input formControlName="name" matInput type="text" required />
+          </mat-form-field>
+        </td>
+        <td rowspan="4" style="align-items: flex-end;">
+          <input
+            #file
+            type="file"
+            accept="image/*"
+            (change)="preview(file.files)"
+          />
+          <img [src]="imgURL" height="200" *ngIf="imgURL" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field>
+            <mat-label>Album Name</mat-label>
+            <input formControlName="album" matInput type="text" required />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field>
+            <mat-label>Release Date</mat-label>
+            <input
+              formControlName="releasedate"
+              matInput
+              [matDatepicker]="picker"
+              required
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field>
+            <mat-label>Artists *</mat-label>
+            <mat-select formControlName="artists" multiple>
+              <mat-option *ngFor="let artist of artists" [value]="artist.id"
+                >{{ artist.artist_name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <mat-user-rating
+          [rating]="rating"
+          [starCount]="starCount"
+          (ratingUpdated)="onRatingChanged($event)"
+        ></mat-user-rating>
+      </tr>
+    </table>
+    <div
+      mat-dialog-actions
+      style="padding: 0; justify-content: end; margin-bottom: 0;"
+    >
+      <button color="accent" mat-raised-button (click)="addArtistDialog()">
         Add New Artist
         <mat-icon class="icon-padding">add</mat-icon>
       </button>
-            <span class="toolbar-spacer"></span>
-            <button color="warn" mat-button [mat-dialog-close]="true">Cancel</button>
-            <button color="primary" mat-button (click)="onNoClick()">Done</button>
-        </div>
-    </form>
+      <span class="toolbar-spacer"></span>
+      <button color="warn" mat-button [mat-dialog-close]="true">Cancel</button>
+      <button type="submit" mat-button color="primary">Done</button>
+    </div>
+  </form>
 </div>

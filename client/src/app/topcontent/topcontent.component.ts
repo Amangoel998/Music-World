@@ -11,7 +11,7 @@ import { ArtistsdataService } from '../artistsdata.service';
 export class TopArtistsComponent implements OnInit {
   constructor(private artistservice: ArtistsdataService) {}
   displayedColumns: string[] = ['index', 'name', 'dob', 'bio'];
-  artists_list: Array<Artist>
+  artists_list: any
   ngOnInit(): void {
     this.artistservice.getTopArtists().subscribe(e=>{
       this.artists_list=e

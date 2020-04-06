@@ -1,7 +1,7 @@
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ServerService } from '../server.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -9,24 +9,32 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
-  form: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
-    ]),
-  });
-  constructor(private auth: AuthService, private router: Router) {}
-  ngOnInit(): void {}
-  @Input() err;
-  submit() {
-    if (this.form.valid) {
-      this.auth.login(this.form.value);
-    }
+  form: FormGroup;
+  constructor(private server: ServerService, private router: Router) {}
+  ngOnInit(): void {
+    this.initialize();
   }
-  @Input() error: string | null;
+  initialize() {
+    if(this.server.isLoggedIn=='true')
+      this.router.navigate(['/home'])
+    this.form = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+    });
+  }
+  err: string;
+  submit() {
+    let result;
+    if (this.form.valid) result = this.server.login(this.form.value);
+    else this.err = 'Form is Invalid';
+    if(result.error)
+      this.err = result.error;
+  }
   gotoRegister() {
-    this.router.navigate(['/register'])
+    this.router.navigate(['/register']);
   }
 }
 
@@ -36,21 +44,26 @@ export class LoginFormComponent implements OnInit {
   styleUrls: ['./form.component.css'],
 })
 export class RegisterFormComponent {
-  form: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    name: new FormControl(''),
-    password: new FormControl(''),
-  });
-  constructor(private auth: AuthService, private router: Router) {}
-  ngOnInit(): void {}
-  @Input() err;
+  form: FormGroup;
+  @Input() err: string;
+  constructor(private server: ServerService, private router: Router) {
+    this.initialize()
+  }
+  ngOnInit(): void {
+    this.initialize()
+  }
+  initialize() {
+    this.form = new FormGroup({
+      email: new FormControl(''),
+      name: new FormControl(''),
+      password: new FormControl(''),
+    });
+  }
   submit() {
-    if (this.form.valid) {
-      this.auth.register(this.form.value);
-    }
+    if (this.form.valid) this.server.register(this.form.value);
+    else this.err = 'Form is Invalid';
   }
   gotoLogin() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
   }
-  @Input() error: string | null;
 }

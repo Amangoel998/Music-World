@@ -17,7 +17,7 @@ _*This project is Full Stack Project including backend in Node.js which uses Exp
 ```
 npm install
 npm start
-ng serve
+cd client && npm start
 ```
 
 ### Now you can browse the website on following Address

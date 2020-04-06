@@ -12,14 +12,13 @@ interface Song{
 })
 export class SearchbarComponent implements OnInit {
 
-  constructor(private dataService:SongdataService) { }
-  songs: Song[]
+  constructor(private songdata:SongdataService) { }
+  songs: any
   ngOnInit(): void {
   }
   getSongs(){
-    this.dataService.getAllSongs().subscribe(post => {
+    this.songdata.getAllSongs().subscribe(post => {
       this.songs = post
-      this.dataService.allSongs = post
     });
   }
 }

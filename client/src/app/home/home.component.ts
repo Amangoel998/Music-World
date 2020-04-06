@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AddSongDialog, AddArtistDialog } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { ServerService } from '../server.service';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +15,15 @@ export class HomeComponent implements OnInit {
   
   mode: FormControl = new FormControl('over');
 
-  constructor(public dialog: MatDialog, private auth:AuthService, private router: Router) {}
+  constructor(public dialog: MatDialog, private auth:ServerService, private router: Router) {
+    if(!this.auth.isLoggedIn){
+      this.router.navigate(['/login']);
+    }
+  }
 
   ngOnInit() {
-    if(!this.auth.isLoggedIn){
-      console.log("Not auth")
-      this.router.navigate(['/register']);
+    if(this.auth.isLoggedIn=='false'){
+      this.router.navigate(['/login']);
     }
   }
   addSongDialog(): void {
@@ -35,7 +38,6 @@ export class HomeComponent implements OnInit {
   logOut(){
     if(this.auth.isLoggedIn)
       this.auth.logout();
-    
   }
 
 }

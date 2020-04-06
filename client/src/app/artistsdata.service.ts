@@ -1,35 +1,23 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import {Artist} from './models';
+import { ServerService } from './server.service';
 @Injectable({
   providedIn: 'root'
 })
 export class ArtistsdataService implements OnInit{
-  mainUrl : string = "http://localhost:5000/api/artists/";
-  topUrl : string = "http://localhost:5000/api/topartists/";
-  constructor(private http: HttpClient) { }
+  constructor(private server: ServerService) { }
   ngOnInit(){
     this.getAllArtists();
   }
-  getAllArtists(): Observable<Artist[]>{
-    return this.http.get<Artist[]>(this.mainUrl);
+  
+  getAllArtists(): Observable<Object> {
+    return this.server.request('GET', 'artists');
   }
-  getTopArtists(): Observable<Artist[]>{
-    return this.http.get<Artist[]>(this.topUrl);
+  getTopArtists(): Observable<Object> {
+    return this.server.request('GET', 'topartists');
   }
-  // filteredListOptions() {
-  //   let posts = this.artists;
-  //   let filteredPostsList = [];
-  //   for (let post of posts) {
-  //       for (let options of this.searchOption) {
-  //           if (options.title === post.artist_name) {
-  //             filteredPostsList.push(post);
-  //           }
-  //       }
-  //   }
-  //   console.log(filteredPostsList);
-  //   return filteredPostsList;
-  // }
-
+  addArtist(newartist): Observable<Object>{
+    return this.server.request('POST', 'artists', newartist);
+  }
 }
