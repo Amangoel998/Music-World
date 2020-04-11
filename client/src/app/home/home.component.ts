@@ -11,10 +11,6 @@ import { ServerService } from '../server.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  opened = true;
-  
-  mode: FormControl = new FormControl('over');
-
   constructor(public dialog: MatDialog, private auth:ServerService, private router: Router) {
     if(!this.auth.isLoggedIn){
       this.router.navigate(['/login']);

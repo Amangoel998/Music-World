@@ -1,7 +1,8 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="toolbar-header">
-    <mat-toolbar-row>
-        <a style="text-decoration: none; color: inherit;" href="/"><span
+  <mat-toolbar-row>
+    <a style="text-decoration: none; color: inherit;" href="/"
+      ><span
         ><mat-icon class="icon-padding">music_note</mat-icon>Music World</span
       ></a
     >
@@ -64,14 +65,11 @@
           </button>
         </li>
         <li style="float: right; margin-right: 10px;">
-          <mat-form-field>
-            <mat-label>Search Songs</mat-label>
-            <input matInput type="text" />
-          </mat-form-field>
+          <app-searchbar></app-searchbar>
         </li>
       </ul>
     </div>
-    <div style="height:100%">
+    <div style="height: 100%;">
       <app-topcontent></app-topcontent>
       <router-outlet></router-outlet>
     </div>
